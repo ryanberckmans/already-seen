@@ -1,0 +1,18 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+      "no-floating-promises": [true],
+      "await-promise": [true],
+      "interface-name": false,
+      "no-trailing-whitespace": false,
+      "object-literal-sort-keys": false,
+      "max-line-length": false,
+      "no-console": false,
+      "no-unused-expression": true
+    },
+    "rulesDirectory": []
+}

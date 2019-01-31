@@ -1,0 +1,24 @@
+{
+  "name": "already-seen",
+  "version": "0.1.0",
+  "main": "build/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm-run-all clean lint bundle",
+    "clean": "rm -rf build tmp",
+    "lint": "npx tslint --project .",
+    "bundle": "mkdir -p build && npx tsc && npx closure-compiler --rewrite_polyfills false --language_out ECMASCRIPT5 --warning_level QUIET --process_common_js_modules --dependency_mode=STRICT --use_types_for_optimization --module_resolution=NODE --entry_point='tmp/index.js' --js='node_modules/jquery/package.json' --js='node_modules/jquery/**/*.js' --js tmp/index.js | npx uglify-js -o build/index.min.js"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.29",
+    "closure-compiler": "^0.2.12",
+    "npm-run-all": "^4.1.5",
+    "strip-comments": "^1.0.2",
+    "tslint": "^5.12.1",
+    "typescript": "^3.2.4",
+    "uglify-js": "^3.4.9"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
