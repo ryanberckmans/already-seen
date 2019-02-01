@@ -19,7 +19,7 @@ function makeEntry(elements: EntryElements): SocialMediaEntry {
 }
 
 function getAllEntriesElements(): EntryElements[] {
-  return $("#hnmain .athing").toArray().map((firstOfTriplet: HTMLElement): EntryElements => {
+  return jQueryGlobal(".itemlist .athing").toArray().map((firstOfTriplet: HTMLElement): EntryElements => {
     if (!(firstOfTriplet.nextSibling instanceof HTMLElement)) {
       // failed to match sibling; degrade gracefully by assuming firstOfTriplet comprises the entire entry
       return [firstOfTriplet];
