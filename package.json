@@ -1,6 +1,6 @@
 {
   "name": "already-seen",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "scripts": {
     "build": "npm-run-all clean lint bundle",
