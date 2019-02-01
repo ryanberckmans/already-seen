@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         already-seen
 // @namespace    https://github.com/ryanberckmans
-// @version      0.1.9
+// @version      0.2.0
 // @description  Auto-hide social media links after you've seen them once. Auto-hiding occurs when you click "next" at the bottom of each page. Works with Old Reddit and Hacker News.
 // @author       Ryan Berckmans
 // @match        https://www.reddit.com/*

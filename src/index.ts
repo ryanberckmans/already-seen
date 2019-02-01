@@ -1,5 +1,4 @@
 // TODO:
-//   add buttons to top/bottom of page to toggle hide/show of previously seen entries
 //   add a button to bottom of page to "mark all as seen" without having to click next
 //   localStorage max is 10MB per origin, so may want to timestamp/ttl entries or clear them out every so often. Current proposal: lifo, store last seen timestamp with key, merge keys/timestamps to keep latest timestamp, evict oldest keys when saving if number of keys exceeds hardcoded amount, like maybe 3000 keys. Add DB versioning, too, for backwards incompatibility, such that hardcoded DB_VERSION=3 will cause all prior versions to be erased; --> this was replaced with a simpler strategy of evicting half the keys on localStorage quota exceeded error.
 //   add preferences to allow user to hide/show the already-seen UI elements
@@ -53,8 +52,12 @@ function onPageLoad(site: SocialMediaSite): void {
   const entriesOnPageAlreadySeen = site.getEntriesForEntryKeys(new Set(entryKeysAlreadySeen));
 
   entriesOnPageAlreadySeen.map(setEntryHiddenOrShown.bind(null, "hide"));
-
   console.log("already-seen: hid ", entriesOnPageAlreadySeen.length, "of", allEntriesOnPage.length);
+
+  const uiMountPoint = site.getUIMountPointElement();
+  if (uiMountPoint !== undefined && entriesOnPageAlreadySeen.length > 0) { // no need to show "toggle hide/show" button if there's no previously seen entries
+    addToggleHideShowButton(uiMountPoint, entriesOnPageAlreadySeen);
+  }
 
   const entryKeysAlreadySeenIncludingNewOnesOnThisPage = Array.from(new Set(entryKeysAlreadySeen.concat(allEntriesOnPage.map((e) => e.key))));
 
@@ -63,6 +66,39 @@ function onPageLoad(site: SocialMediaSite): void {
   // marked as seen without actually being seen, eg. if you load reddit homepage
   // and close it immediately, we don't want to mark things as having been seen.
   site.onNextPageOfEntries(() => saveEntryKeysAlreadySeen(entryKeysAlreadySeenIncludingNewOnesOnThisPage));
+}
+
+function addToggleHideShowButton(mountPoint: HTMLElement, entriesOnPageAlreadySeen: SocialMediaEntry[]): void {
+  let nextAction: "hide" | "show" = "show";
+  function toggleNextAction(): void {
+    if (nextAction === "show") {
+      nextAction = "hide";
+    } else {
+      nextAction = "show";
+    }
+  }
+  function setButtonText(button: HTMLElement): void {
+    if (nextAction === "hide") {
+      button.innerHTML = "<br/><br/>Hide links you've already seen";
+    } else {
+      button.innerHTML = "<br/><br/>Show links you've already seen";
+    }
+  }
+  function makeButton(): HTMLElement {
+    const button = document.createElement('a');
+    button.setAttribute('href', '#');
+    setButtonText(button);
+    return button;
+  }
+
+  const btn = makeButton();
+  jQueryGlobal(btn).click(() => {
+    entriesOnPageAlreadySeen.map(setEntryHiddenOrShown.bind(null, nextAction));
+    toggleNextAction();
+    setButtonText(btn);
+    return false; // stop propagation to avoid reloading page
+  });
+  mountPoint.appendChild(btn);
 }
 
 function getSocialMediaSiteFromOrigin(origin: string): SocialMediaSite|undefined {

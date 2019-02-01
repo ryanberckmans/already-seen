@@ -29,6 +29,9 @@ const Reddit: SocialMediaSite = {
   onNextPageOfEntries(runOnNextPage: () => void): void {
     jQueryGlobal(".next-button").click(runOnNextPage);
   },
+  getUIMountPointElement(): HTMLElement | undefined {
+    return jQueryGlobal(".linklisting .nav-buttons")[0];
+  },
 };
 
 export default Reddit;

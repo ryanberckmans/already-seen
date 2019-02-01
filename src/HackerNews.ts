@@ -43,6 +43,9 @@ const HackerNews: SocialMediaSite = {
   onNextPageOfEntries(runOnNextPage: () => void): void {
     jQueryGlobal(".morelink").click(runOnNextPage);
   },
+  getUIMountPointElement(): HTMLElement | undefined {
+    return jQueryGlobal(".itemlist tr:last-child td:last-child")[0];
+  },
 };
 
 export default HackerNews;
