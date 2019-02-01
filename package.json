@@ -7,7 +7,9 @@
     "build": "npm-run-all clean lint bundle",
     "clean": "rm -rf build tmp",
     "lint": "npx tslint --project .",
-    "bundle": "mkdir -p build && npx tsc && npx closure-compiler --rewrite_polyfills false --language_out ECMASCRIPT5 --warning_level QUIET --process_common_js_modules --dependency_mode=STRICT --use_types_for_optimization --module_resolution=NODE --entry_point='tmp/index.js' --js='node_modules/jquery/package.json' --js='node_modules/jquery/**/*.js' --js tmp/index.js | npx uglify-js -o build/index.min.js"
+    "bundle": "mkdir -p build && npx tsc && npx closure-compiler --rewrite_polyfills false --language_out ECMASCRIPT5 --warning_level QUIET --process_common_js_modules --dependency_mode=STRICT --use_types_for_optimization --module_resolution=NODE --entry_point='tmp/index.js' --js='node_modules/jquery/package.json' --js='node_modules/jquery/**/*.js' --js tmp/index.js | npx uglify-js -o build/index.min.js",
+    "tampermonkey": "cat src/user.js.template.head build/index.min.js src/user.js.template.tail > build/already-seen.user.js",
+    "release": "npm-run-all build tampermonkey && cp build/already-seen.user.js dist/"
   },
   "devDependencies": {
     "@types/jquery": "^3.3.29",
