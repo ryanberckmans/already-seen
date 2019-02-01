@@ -22,14 +22,11 @@ function getAllEntriesElements(): EntryElements[] {
   return jQueryGlobal(".itemlist .athing").toArray().map((firstOfTriplet: HTMLElement): EntryElements => {
     if (!(firstOfTriplet.nextElementSibling instanceof HTMLElement)) {
       // failed to match sibling; degrade gracefully by assuming firstOfTriplet comprises the entire entry
-      console.log("matched [firstOfTriplet]");
       return [firstOfTriplet];
     } else if (!(firstOfTriplet.nextElementSibling.nextElementSibling instanceof HTMLElement)) {
       // failed to match sibling's sibling; degrade gracefully by assuming [firstOfTriplet, sibling] comprises the entire entry
-      console.log("matched [firstOfTriplet, sibling]");
       return [firstOfTriplet, firstOfTriplet.nextElementSibling];
     }
-    console.log("matched [firstOfTriplet, sibling, sibling]");
     return [firstOfTriplet, firstOfTriplet.nextElementSibling, firstOfTriplet.nextElementSibling.nextElementSibling];
   });
 }

@@ -15,6 +15,12 @@ Auto-hide social media links after you've seen them once. Auto-hiding occurs whe
 
 # Developers
 
+## Testing tampermonkey script locally
+
+Use `yarn dev` to test tampermonkey locally by installing a test script from a local webserver. (Open the webserver page and click the file to install the dev script to tampermonkey.)
+
+* Requires that tampermonkey/greasemonkey be allowed to run on `http://127.0.0.1:38736/*`
+
 ## Toolchain
 
 * tsc isn't a bundler, so we need a bundler
