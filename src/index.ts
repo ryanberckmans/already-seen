@@ -3,7 +3,7 @@
 //   add a button to bottom of page to "mark all as seen" without having to click next
 //   localStorage max is 10MB per origin, so may want to timestamp/ttl entries or clear them out every so often. Current proposal: lifo, store last seen timestamp with key, merge keys/timestamps to keep latest timestamp, evict oldest keys when saving if number of keys exceeds hardcoded amount, like maybe 3000 keys.
 //   add preferences to allow user to hide/show the already-seen UI elements
-//   Add master branch protection and a tampermonkey dynamic release to test current branch
+//   Add master branch protection and a tampermonkey dynamic release to test current branch; should include versioning the tampermonkey script based on HEAD commit id, because tampermonkey seems to have trouble updating a script if the version doesn't change
 //   Move these TODOs into github issues
 
 import jQueryGlobal from "jquery";
