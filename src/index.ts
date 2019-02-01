@@ -3,48 +3,8 @@
 //   localStorage max is 10MB per origin, so may want to timestamp/ttl entries or clear them out every so often.
 
 import jQueryGlobal from "jquery";
-
-// Entry represents one social media link, for example one reddit submission.
-interface SocialEntry {
-  key: string; // primary key of this Entry, eg. Reddit link URL
-  entry: HTMLElement; // HTMLElement that minimally contains this entire Entry, will be used to hide entries that have already been seen
-}
-
-interface SocialMediaSite {
-  getEntriesForEntryKeys(entryKeys: Set<string>): SocialEntry[]; // get all Entries on the current page whose Entry.key is in the passed list of entryKeys
-  getAllEntries(): SocialEntry[]; // get all Entries on the current page
-  onNextPageOfEntries(runOnNextPage: () => void): void; // run the passed function when the user loads the next page of entries, prior to loading the next page of entries
-}
-
-// redditGetEntryKeyFromEntryElement gets an Entry.key from passed
-// HTMLElement, which is assumed to be a well-formed Entry candidate.
-function redditGetEntryKeyFromEntryElement(e: HTMLElement): string {
-  // ie. primary key of a reddit entry is the link URL
-  return (jQueryGlobal(e).find("a.title")[0] as HTMLAnchorElement).href;
-}
-
-function redditMakeEntry(entry: HTMLElement): SocialEntry {
-  return {
-    key: redditGetEntryKeyFromEntryElement(entry),
-    entry,
-  };
-}
-
-const redditEntrySelector = ".linklisting div.thing.link";
-
-const reddit: SocialMediaSite = {
-  getEntriesForEntryKeys(entryKeys: Set<string>): SocialEntry[] {
-    return jQueryGlobal(redditEntrySelector).toArray()
-      .filter((e: HTMLElement) => entryKeys.has(redditGetEntryKeyFromEntryElement(e)))
-      .map(redditMakeEntry);
-  },
-  getAllEntries(): SocialEntry[] {
-    return jQueryGlobal(redditEntrySelector).toArray().map(redditMakeEntry);
-  },
-  onNextPageOfEntries(runOnNextPage: () => void): void {
-    jQueryGlobal(".next-button").click(runOnNextPage);
-  },
-};
+import Reddit from "./Reddit";
+import { SocialEntry, SocialMediaSite } from "./SocialMediaSite";
 
 const localStorageGlobalKey = "__seen_entries";
 
@@ -82,4 +42,17 @@ function onPageLoad(site: SocialMediaSite): void {
   site.onNextPageOfEntries(() => saveEntryKeysAlreadySeen(entryKeysAlreadySeenIncludingNewOnesOnThisPage));
 }
 
-jQueryGlobal.ready.then(() => onPageLoad(reddit));
+function getSocialMediaSiteFromOrigin(origin: string): SocialMediaSite|undefined {
+  if (origin === "https://www.reddit.com") {
+    return Reddit;
+  }
+}
+
+function run() {
+  const socialMediaSite = getSocialMediaSiteFromOrigin(window.location.origin);
+  if (socialMediaSite) {
+    onPageLoad(socialMediaSite);
+  }
+}
+
+jQueryGlobal.ready.then(run);
