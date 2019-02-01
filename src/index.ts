@@ -8,7 +8,7 @@
 
 import jQueryGlobal from "jquery";
 import Reddit from "./Reddit";
-import { SocialEntry, SocialMediaSite } from "./SocialMediaSite";
+import { SocialMediaEntry, SocialMediaSite } from "./SocialMediaSite";
 
 const localStorageGlobalKey = "__seen_entries";
 
@@ -24,8 +24,8 @@ function saveEntryKeysAlreadySeen(entryKeys: string[]): void {
   window.localStorage.setItem(localStorageGlobalKey, JSON.stringify(entryKeys));
 }
 
-function setEntryHiddenOrShown(mode: "hide" | "show", e: SocialEntry): void {
-  e.entry.hidden = mode === "hide";
+function setEntryHiddenOrShown(mode: "hide" | "show", e: SocialMediaEntry): void {
+  e.elements.map((el) => el.hidden = mode === "hide");
 }
 
 function onPageLoad(site: SocialMediaSite): void {
