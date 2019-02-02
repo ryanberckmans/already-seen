@@ -31,6 +31,8 @@ You can also click _"I've seen all the links on this page"_ at the bottom of eac
 
 ## Developers
 
+Small Gitcoin bounties are available for certain [issues](https://github.com/ryanberckmans/already-seen/issues). Bounties will be added in Gitcoin upon request.
+
 ### Testing Tampermonkey script locally
 
 Use `yarn dev` to test Tampermonkey locally by installing a test script from a local webserver. (Open the webserver page and click the file to install the dev script to Tampermonkey.)
