@@ -1,30 +1,47 @@
 
-# Overview
+# **"I've already seen that..."** you think to yourself, dozens or hundreds of times per day.
 
-Auto-hide social media links after you've seen them once. Auto-hiding occurs when you click "next" at the bottom of each page. Works with Old Reddit and Hacker News.
+Auto-hide Reddit links after you've **seen them once**. :eyes:
 
-# How to use
+<img src="https://raw.githubusercontent.com/ryanberckmans/already-seen/master/demo.png?sanitize=true&raw=true" />
 
-1. install tampermonkey for Chrome or greasemonkey for Firefox
-1. add already-seen to tampermonkey/greasemonkey by [clicking here](https://raw.githubusercontent.com/ryanberckmans/already-seen/master/dist/already-seen.user.js)
-1. **security:** tampermonkey/greasemonkey can do anything with your browser and I recommend allowing it to run only on specific sites
-    1. sites I allow tampermonkey to run on:
-    1. `https://raw.githubusercontent.com/*` to install/update this script inside tampermonkey/greasemonkey
-    1. `https://www.reddit.com/*` so this script works on reddit
-    1. `https://news.ycombinator.com/*` so this script works on Hacker News
+99 links are hidden in this image.
 
-# Developers
+* Hiding links is done automatically
+* Easily toggle links show/hide if you need it
+* Works on Old Reddit and Hacker News
 
-## Testing tampermonkey script locally
+## How to use
 
-Use `yarn dev` to test tampermonkey locally by installing a test script from a local webserver. (Open the webserver page and click the file to install the dev script to tampermonkey.)
+1. install browser extension [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) for Chrome or [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) for Firefox
+1. **optional** security config: Tampermonkey/Greasemonkey have a lot of permissions, I recommend allowing it to run only on specific sites
+    * sites I allow tampermonkey to run on:
+        1. `https://raw.githubusercontent.com/*` to install/update this script in Tampermonkey/Greasemonkey
+        1. `https://www.reddit.com/*` so this script works on reddit
+        1. `https://news.ycombinator.com/*` so this script works on Hacker News
+1. Install by clicking below. It works automatically!
 
-* Requires that tampermonkey/greasemonkey be allowed to run on `http://127.0.0.1:38736/*`
+## [Click here to install `already-seen` to Tampermonkey or Greasemonkey](https://raw.githubusercontent.com/ryanberckmans/already-seen/master/dist/already-seen.user.js)
 
-## Toolchain
+## How does it know when you've seen a link?
+
+`already-seen` hides all links on the previous page after you click _"next page"_.
+
+You can also click _"Hide links and close tab"_ at the bottom of each page instead of clicking _"next page"_.
+
+## Developers
+
+### Testing Tampermonkey script locally
+
+Use `yarn dev` to test Tampermonkey locally by installing a test script from a local webserver. (Open the webserver page and click the file to install the dev script to Tampermonkey.)
+
+* Requires that Tampermonkey/Greasemonkey have browser permissions to run on `http://127.0.0.1:38736/*`
+* The `yarn dev` script installs to Tampermonkey with the name `already-seen-dev`; make sure to disable the regular `already-seen` while you're testing
+
+### Toolchain
 
 * tsc isn't a bundler, so we need a bundler
-* wanted to try closure-compiler, which does optimizations and bundling, but leaves some comments in the output which breaks browser bookmarklets.
-  * (previously this was targeting a bookmarklet before upgrading to tampermonkey; uglify-js used to remove the comments from closure-compiler output)
-  * !! closure-compiler doesn't do src file discovery, so each dependency is manually added in package.json (just jquery right now)
-  * closure-compiler's `-O ADVANCED` results in the script not compiling properly when used with tampermonkey. Currently using no `-O` flag.
+* I wanted to try closure-compiler, which does optimizations and bundling, but leaves some comments in the output which breaks browser bookmarklets.
+  * (previously this was targeting a bookmarklet before upgrading to Tampermonkey; uglify-js used to remove the comments from closure-compiler output)
+  * closure-compiler doesn't do src file discovery, so each dependency is manually added in package.json (just jquery right now)
+  * closure-compiler's `-O ADVANCED` results in the script not compiling properly when used with Tampermonkey. Currently using no `-O` flag.
