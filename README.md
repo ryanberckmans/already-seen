@@ -1,5 +1,5 @@
 
-# **"I've already seen that..."** you think to yourself, dozens or hundreds of times per day
+# **"I've already seen that..."** you think to yourself, dozens or hundreds of times per day.
 
 Auto-hide Reddit links after you've **seen them once**. :eyes:  (also Hacker News links)
 
@@ -23,7 +23,7 @@ Auto-hide Reddit links after you've **seen them once**. :eyes:  (also Hacker New
 
 ## [Click here to install `already-seen` to Tampermonkey or Greasemonkey](https://raw.githubusercontent.com/ryanberckmans/already-seen/master/dist/already-seen.user.js)
 
-## How does `already-seen` know when you've seen a link?
+## How does it know when you've seen a link?
 
 `already-seen` hides all links on the previous page after you click _"next page"_.
 
