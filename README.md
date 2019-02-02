@@ -27,7 +27,7 @@ Auto-hide Reddit links after you've **seen them once**. :eyes:  (also Hacker New
 
 `already-seen` hides all links on the previous page after you click _"next page"_.
 
-You can also click _"Hide links and close tab"_ at the bottom of each page instead of clicking _"next page"_.
+You can also click _"Hide all links on this page"_ at the bottom of each page instead of clicking _"next page"_.
 
 ## Developers
 

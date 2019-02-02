@@ -7,7 +7,8 @@
 import jQueryGlobal from "jquery";
 import HackerNews from "./HackerNews";
 import Reddit from "./Reddit";
-import { SocialMediaEntry, SocialMediaSite } from "./SocialMediaSite";
+import { setEntryHiddenOrShown, SocialMediaSite } from "./SocialMediaSite";
+import { makeBasicButton, makeToggleHideShowButton } from "./ui";
 
 const localStorageGlobalKey = "__seen_entries";
 
@@ -41,11 +42,6 @@ function saveEntryKeysAlreadySeen(entryKeys: string[]): void {
   }
 }
 
-function setEntryHiddenOrShown(mode: "hide" | "show", e: SocialMediaEntry): void {
-  // NB setting hide/show is idempotent instead of toggling, this could prevent weird behavior given a buggy SocialMediaSite
-  e.elements.map((el) => el.hidden = mode === "hide");
-}
-
 function onPageLoad(site: SocialMediaSite): void {
   const allEntriesOnPage = site.getAllEntries();
   const entryKeysAlreadySeen = loadEntryKeysAlreadySeen();
@@ -54,54 +50,27 @@ function onPageLoad(site: SocialMediaSite): void {
   entriesOnPageAlreadySeen.map(setEntryHiddenOrShown.bind(null, "hide"));
   console.log("already-seen: hid ", entriesOnPageAlreadySeen.length, "of", allEntriesOnPage.length);
 
-  const uiMountPoint = site.getUIMountPointElement();
-  if (uiMountPoint !== undefined && entriesOnPageAlreadySeen.length > 0) { // no need to show "toggle hide/show" button if there's no previously seen entries
-    addToggleHideShowButton(uiMountPoint, entriesOnPageAlreadySeen);
-  }
-
   const entryKeysAlreadySeenIncludingNewOnesOnThisPage = Array.from(new Set(entryKeysAlreadySeen.concat(allEntriesOnPage.map((e) => e.key))));
 
+  const uiMountPoint = site.getUIMountPointElement();
+  if (uiMountPoint !== undefined && allEntriesOnPage.length > entriesOnPageAlreadySeen.length) { // no need to show "Hide all links on this page" button if all links were previously seen and are already hidden
+    uiMountPoint.appendChild(makeBasicButton("<br/><br/>Hide all links on this page", () => {
+      saveEntryKeysAlreadySeen(entryKeysAlreadySeenIncludingNewOnesOnThisPage);
+      return "<br/><br/>Hide all links on this page (done, hidden next refresh)";
+    }));
+  }
+  if (uiMountPoint !== undefined && entriesOnPageAlreadySeen.length > 0) { // no need to show "toggle hide/show" button if there's no previously seen entries
+    uiMountPoint.appendChild(makeToggleHideShowButton(entriesOnPageAlreadySeen));
+  }
+
   // The idea here is to save entries (and thus mark them as having been seen)
-  // iff the user clicks the "next page" button. This prevents entries from being
+  // if the user clicks the "next page" button. This prevents entries from being
   // marked as seen without actually being seen, eg. if you load reddit homepage
   // and close it immediately, we don't want to mark things as having been seen.
   site.onNextPageOfEntries(() => saveEntryKeysAlreadySeen(entryKeysAlreadySeenIncludingNewOnesOnThisPage));
 }
 
-function addToggleHideShowButton(mountPoint: HTMLElement, entriesOnPageAlreadySeen: SocialMediaEntry[]): void {
-  let nextAction: "hide" | "show" = "show";
-  function toggleNextAction(): void {
-    if (nextAction === "show") {
-      nextAction = "hide";
-    } else {
-      nextAction = "show";
-    }
-  }
-  function setButtonText(button: HTMLElement): void {
-    if (nextAction === "hide") {
-      button.innerHTML = "<br/><br/>Hide links you've already seen";
-    } else {
-      button.innerHTML = "<br/><br/>Show links you've already seen";
-    }
-  }
-  function makeButton(): HTMLElement {
-    const button = document.createElement('a');
-    button.setAttribute('href', '#');
-    setButtonText(button);
-    return button;
-  }
-
-  const btn = makeButton();
-  jQueryGlobal(btn).click(() => {
-    entriesOnPageAlreadySeen.map(setEntryHiddenOrShown.bind(null, nextAction));
-    toggleNextAction();
-    setButtonText(btn);
-    return false; // stop propagation to avoid reloading page
-  });
-  mountPoint.appendChild(btn);
-}
-
-function getSocialMediaSiteFromOrigin(origin: string): SocialMediaSite|undefined {
+function getSocialMediaSiteFromOrigin(origin: string): SocialMediaSite | undefined {
   if (origin === "https://www.reddit.com") {
     return Reddit;
   } else if (origin === "https://news.ycombinator.com") {

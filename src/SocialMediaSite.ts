@@ -15,3 +15,8 @@ export interface SocialMediaSite {
   onNextPageOfEntries(runOnNextPage: () => void): void; // run the passed function when the user loads the next page of entries, prior to loading the next page of entries
   getUIMountPointElement(): HTMLElement | undefined; // get an Element suitable to be a mount point for already-seen UI controls
 }
+
+export function setEntryHiddenOrShown(mode: "hide" | "show", e: SocialMediaEntry): void {
+  // NB setting hide/show is idempotent instead of toggling, this could prevent weird behavior given a buggy SocialMediaSite
+  e.elements.map((el) => el.hidden = mode === "hide");
+}
