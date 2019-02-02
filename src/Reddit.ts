@@ -15,7 +15,7 @@ function makeEntry(element: HTMLElement): SocialMediaEntry {
   };
 }
 
-const entrySelector = ".linklisting div.thing.link";
+const entrySelector = ".linklisting div.thing.link[data-context=listing]";
 
 const Reddit: SocialMediaSite = {
   getEntriesForEntryKeys(entryKeys: Set<string>): SocialMediaEntry[] {
