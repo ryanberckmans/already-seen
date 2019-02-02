@@ -53,10 +53,10 @@ function onPageLoad(site: SocialMediaSite): void {
   const entryKeysAlreadySeenIncludingNewOnesOnThisPage = Array.from(new Set(entryKeysAlreadySeen.concat(allEntriesOnPage.map((e) => e.key))));
 
   const uiMountPoint = site.getUIMountPointElement();
-  if (uiMountPoint !== undefined && allEntriesOnPage.length > entriesOnPageAlreadySeen.length) { // no need to show "Hide all links on this page" button if all links were previously seen and are already hidden
-    uiMountPoint.appendChild(makeBasicButton("<br/><br/>Hide all links on this page", () => {
+  if (uiMountPoint !== undefined && allEntriesOnPage.length > entriesOnPageAlreadySeen.length) { // no need to show "I've seen all the links on this page" button if all links were previously seen and are already hidden
+    uiMountPoint.appendChild(makeBasicButton("<br/><br/>I've seen all the links on this page", () => {
       saveEntryKeysAlreadySeen(entryKeysAlreadySeenIncludingNewOnesOnThisPage);
-      return "<br/><br/>Hide all links on this page (done, hidden next refresh)";
+      return "<br/><br/>I've seen all the links on this page (done, hidden next refresh; instead of clicking this you can also just click next page)";
     }));
   }
   if (uiMountPoint !== undefined && entriesOnPageAlreadySeen.length > 0) { // no need to show "toggle hide/show" button if there's no previously seen entries

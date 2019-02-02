@@ -25,9 +25,9 @@ Auto-hide Reddit links after you've **seen them once**. :eyes:  (also Hacker New
 
 ## How does it know when you've seen a link?
 
-`already-seen` hides all links on the previous page after you click _"next page"_.
+`already-seen` permanently hides all links on the previous page after you click _"next page"_.
 
-You can also click _"Hide all links on this page"_ at the bottom of each page instead of clicking _"next page"_.
+You can also click _"I've seen all the links on this page"_ at the bottom of each page instead of clicking _"next page"_.
 
 ## Developers
 

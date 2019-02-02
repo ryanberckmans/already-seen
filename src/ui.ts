@@ -27,9 +27,9 @@ export function makeToggleHideShowButton(entriesOnPageAlreadySeen: SocialMediaEn
   const button = document.createElement('a');
   function setButtonText(): void {
     if (nextAction === "hide") {
-      button.innerHTML = "<br/><br/>Hide links you've already seen";
+      button.innerHTML = "<br/><br/>Hide links you've already seen on this page";
     } else {
-      button.innerHTML = "<br/><br/>Show links you've already seen";
+      button.innerHTML = "<br/><br/>Show links you've already seen on this page";
     }
   }
   setButtonText();
