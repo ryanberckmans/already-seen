@@ -1,5 +1,5 @@
 import jQueryGlobal from "jquery";
-import { setEntryHiddenOrShown, SocialMediaEntry } from "./SocialMediaSite";
+import { setEntryHiddenOrShown, SocialMediaEntry } from "./SocialMediaEntry";
 
 export function makeBasicButton(label: string, onClick: () => string|undefined): HTMLElement {
   const button = document.createElement('a');

@@ -1,5 +1,6 @@
 import jQueryGlobal from "jquery";
-import { SocialMediaEntry, SocialMediaSite } from "./SocialMediaSite";
+import { SocialMediaEntry } from "./SocialMediaEntry";
+import { SocialMediaSite } from "./SocialMediaSite";
 
 // getEntryKeyFromEntryElement gets an Entry.key from passed
 // HTMLElement, which is assumed to be a well-formed Entry candidate.

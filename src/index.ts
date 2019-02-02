@@ -1,5 +1,4 @@
 // TODO:
-//   add a button to bottom of page to "mark all as seen" without having to click next
 //   localStorage max is 10MB per origin, so may want to timestamp/ttl entries or clear them out every so often. Current proposal: lifo, store last seen timestamp with key, merge keys/timestamps to keep latest timestamp, evict oldest keys when saving if number of keys exceeds hardcoded amount, like maybe 3000 keys. Add DB versioning, too, for backwards incompatibility, such that hardcoded DB_VERSION=3 will cause all prior versions to be erased; --> this was replaced with a simpler strategy of evicting half the keys on localStorage quota exceeded error.
 //   add preferences to allow user to hide/show the already-seen UI elements
 //   Move these TODOs into github issues
@@ -7,7 +6,8 @@
 import jQueryGlobal from "jquery";
 import HackerNews from "./HackerNews";
 import Reddit from "./Reddit";
-import { setEntryHiddenOrShown, SocialMediaSite } from "./SocialMediaSite";
+import { setEntryHiddenOrShown } from "./SocialMediaEntry";
+import { SocialMediaSite } from "./SocialMediaSite";
 import { makeBasicButton, makeToggleHideShowButton } from "./ui";
 
 const localStorageGlobalKey = "__seen_entries";

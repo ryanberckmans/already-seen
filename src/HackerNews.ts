@@ -1,5 +1,6 @@
 import jQueryGlobal from "jquery";
-import { SocialMediaEntry, SocialMediaSite } from "./SocialMediaSite";
+import { SocialMediaEntry } from "./SocialMediaEntry";
+import { SocialMediaSite } from "./SocialMediaSite";
 
 // SocialMediaEntries on Hacker News are a triplet of (title row, points, row, spacer row), with no single DOM element containing the entry. But we may fail to find sibling nodes and provide single/pair types to degrade gracefully.
 type EntryElements = [HTMLElement] | [HTMLElement, HTMLElement] | [HTMLElement, HTMLElement, HTMLElement];
